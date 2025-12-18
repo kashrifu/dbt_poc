@@ -1,20 +1,32 @@
-# Template for ~/.dbt/profiles.yml
-# Copy this configuration to your ~/.dbt/profiles.yml file
-# and update with your actual database credentials
+# Template for ~/.dbt/profiles.yml or local profiles.yml
+# Copy this configuration and update with your actual database credentials
+# 
+# For local development, you can create profiles.yml in the project root
+# and set DBT_PROFILES_DIR=. to use it
 
 metricflow_poc:
   target: dev
   outputs:
     dev:
-      type: snowflake  # or bigquery, redshift, postgres, etc.
-      account: your_account
-      user: your_username
-      password: your_password
-      role: your_role
-      database: your_database
-      warehouse: your_warehouse
+      # Databricks Configuration
+      type: databricks
+      catalog: your_catalog
+      host: your_databricks_host.cloud.databricks.com
+      http_path: /sql/1.0/warehouses/your_warehouse_id
       schema: your_schema
+      token: your_databricks_token
       threads: 4
+      
+      # For Snowflake, use:
+      # type: snowflake
+      # account: your_account
+      # user: your_username
+      # password: your_password
+      # role: your_role
+      # database: your_database
+      # warehouse: your_warehouse
+      # schema: your_schema
+      # threads: 4
       
       # For BigQuery, use:
       # type: bigquery
@@ -22,6 +34,7 @@ metricflow_poc:
       # project: your_project
       # dataset: your_dataset
       # keyfile: /path/to/keyfile.json
+      # threads: 4
       
       # For Redshift, use:
       # type: redshift
@@ -31,4 +44,15 @@ metricflow_poc:
       # password: your_password
       # dbname: your_database
       # schema: your_schema
+      # threads: 4
+      
+      # For PostgreSQL, use:
+      # type: postgres
+      # host: your_host
+      # port: 5432
+      # user: your_username
+      # password: your_password
+      # dbname: your_database
+      # schema: your_schema
+      # threads: 4
 
