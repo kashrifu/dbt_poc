@@ -31,10 +31,38 @@ metricflow_poc/
 
 ## Prerequisites
 
-1. **dbt** installed (version 1.10+)
-2. **MetricFlow** installed
-3. A data warehouse connection configured (Snowflake, BigQuery, Redshift, etc.)
-4. dbt profile configured in `~/.dbt/profiles.yml`
+1. **Python** 3.8 or higher
+2. **dbt Core** installed
+3. **dbt Databricks adapter** installed
+4. **dbt MetricFlow** installed
+5. A data warehouse connection configured (Databricks, Snowflake, BigQuery, etc.)
+6. dbt profile configured (see `profiles_template.yml`)
+
+## Installation
+
+### Step 1: Install dbt Core
+```bash
+pip install dbt-core
+```
+
+### Step 2: Install dbt Databricks Adapter
+```bash
+pip install dbt-databricks
+```
+
+### Step 3: Install dbt MetricFlow
+```bash
+pip install dbt-metricflow
+```
+
+### Step 4: Verify Installation
+```bash
+# Check dbt version
+dbt --version
+
+# Check MetricFlow
+mf --version
+```
 
 ## Setup
 
