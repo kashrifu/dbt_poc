@@ -1,0 +1,15 @@
+version: 2
+
+models:
+  - name: time_spine
+    description: "A time spine model with daily granularity for MetricFlow"
+    config:
+      materialized: table
+    time_spine:
+      standard_granularity_column: date_day
+    columns:
+      - name: date_day
+        description: "The base date column for daily granularity"
+        data_type: date
+        granularity: day
+

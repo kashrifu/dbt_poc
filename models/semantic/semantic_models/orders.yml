@@ -1,0 +1,87 @@
+semantic_models:
+  - name: orders
+    description: >
+      Orders fact table from Jaffle Shop. This table contains one row per order
+      with order details and payment information.
+    model: ref('fct_orders')
+    
+    defaults:
+      agg_time_dimension: order_date
+    
+    entities:
+      - name: order
+        expr: order_id
+        type: primary
+      - name: customer
+        expr: customer_id
+        type: foreign
+      - name: store
+        expr: store_id
+        type: foreign
+    
+    dimensions:
+      - name: order_date
+        expr: order_date
+        type: time
+        type_params:
+          time_granularity: day
+      - name: order_date_week
+        expr: order_date
+        type: time
+        type_params:
+          time_granularity: week
+      - name: order_date_month
+        expr: order_date
+        type: time
+        type_params:
+          time_granularity: month
+      - name: order_date_quarter
+        expr: order_date
+        type: time
+        type_params:
+          time_granularity: quarter
+      - name: order_date_year
+        expr: order_date
+        type: time
+        type_params:
+          time_granularity: year
+      - name: order_status
+        expr: status
+        type: categorical
+      - name: customer_first_name
+        expr: first_name
+        type: categorical
+      - name: customer_last_name
+        expr: last_name
+        type: categorical
+    
+    measures:
+      - name: order_total
+        agg: sum
+        expr: amount
+        description: "Total order amount"
+      - name: order_count
+        agg: count_distinct
+        expr: order_id
+        description: "Number of distinct orders"
+      - name: credit_card_amount
+        agg: sum
+        expr: credit_card_amount
+        description: "Total amount paid via credit card"
+      - name: coupon_amount
+        agg: sum
+        expr: coupon_amount
+        description: "Total amount paid via coupon"
+      - name: bank_transfer_amount
+        agg: sum
+        expr: bank_transfer_amount
+        description: "Total amount paid via bank transfer"
+      - name: total_payment_amount
+        agg: sum
+        expr: credit_card_amount + coupon_amount + bank_transfer_amount
+        description: "Total of all payment methods"
+      - name: completed_order_count
+        agg: count_distinct
+        expr: case when status = 'completed' then order_id else null end
+        description: "Count of completed orders"
+

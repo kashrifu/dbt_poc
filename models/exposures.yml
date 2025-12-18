@@ -1,0 +1,98 @@
+version: 2
+
+exposures:
+  # Dashboard Exposures - Document where metrics are used in BI tools
+  - name: revenue_dashboard
+    label: "Revenue Dashboard"
+    type: dashboard
+    description: "Main revenue analytics dashboard showing key business metrics"
+    owner:
+      name: "Analytics Team"
+      email: "analytics@company.com"
+    url: "https://bi.company.com/dashboards/revenue"
+    depends_on:
+      - ref('fct_orders')
+    
+  - name: payment_methods_dashboard
+    label: "Payment Methods Analysis"
+    type: dashboard
+    description: "Dashboard analyzing revenue by payment method"
+    owner:
+      name: "Finance Team"
+      email: "finance@company.com"
+    url: "https://bi.company.com/dashboards/payments"
+    depends_on:
+      - ref('fct_orders')
+    
+  - name: customer_analytics_dashboard
+    label: "Customer Analytics"
+    type: dashboard
+    description: "Customer-focused metrics and analysis"
+    owner:
+      name: "Marketing Team"
+      email: "marketing@company.com"
+    url: "https://bi.company.com/dashboards/customers"
+    depends_on:
+      - ref('fct_orders')
+    
+  # Report Exposures - Document scheduled reports
+  - name: daily_revenue_report
+    label: "Daily Revenue Report"
+    type: notebook
+    description: "Automated daily email report with revenue metrics"
+    owner:
+      name: "Data Engineering"
+      email: "data-eng@company.com"
+    url: "https://reports.company.com/daily-revenue"
+    depends_on:
+      - ref('fct_orders')
+    config:
+      enabled: true
+    
+  - name: weekly_executive_summary
+    label: "Weekly Executive Summary"
+    type: notebook
+    description: "Weekly executive report with key business metrics"
+    owner:
+      name: "Executive Team"
+      email: "exec@company.com"
+    url: "https://reports.company.com/weekly-summary"
+    depends_on:
+      - ref('fct_orders')
+    
+  # Application Exposures - Document API/application usage
+  - name: revenue_api_endpoint
+    label: "Revenue Metrics API"
+    type: application
+    description: "REST API endpoint serving revenue metrics to internal applications"
+    owner:
+      name: "Platform Team"
+      email: "platform@company.com"
+    url: "https://api.company.com/metrics/revenue"
+    depends_on:
+      - ref('fct_orders')
+    
+  # Analysis Exposures - Document ad-hoc analyses
+  - name: q4_revenue_analysis
+    label: "Q4 Revenue Deep Dive"
+    type: analysis
+    description: "Quarterly analysis of Q4 revenue performance and trends"
+    owner:
+      name: "Business Intelligence"
+      email: "bi@company.com"
+    url: "https://notebooks.company.com/q4-analysis"
+    depends_on:
+      - ref('fct_orders')
+    
+  # ML Model Exposures - Document ML model dependencies
+  - name: revenue_forecast_model
+    label: "Revenue Forecasting Model"
+    type: ml
+    description: "Machine learning model for revenue forecasting using historical metrics"
+    owner:
+      name: "Data Science Team"
+      email: "datascience@company.com"
+    url: "https://ml.company.com/models/revenue-forecast"
+    depends_on:
+      - ref('fct_orders')
+

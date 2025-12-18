@@ -1,0 +1,116 @@
+metrics:
+  # ============================================
+  # SIMPLE METRICS - Direct aggregations from measures
+  # ============================================
+  
+  - name: total_revenue
+    label: "Total Revenue"
+    description: "Total revenue from all orders"
+    type: simple  # Simple metric: Direct sum aggregation
+    type_params:
+      measure: order_total
+    
+  - name: total_orders
+    label: "Total Orders"
+    description: "Total number of orders"
+    type: simple  # Simple metric: Direct count distinct aggregation
+    type_params:
+      measure: order_count
+    
+  - name: credit_card_revenue
+    label: "Credit Card Revenue"
+    description: "Revenue from credit card payments"
+    type: simple  # Simple metric: Sum of credit card amounts
+    type_params:
+      measure: credit_card_amount
+    
+  - name: coupon_revenue
+    label: "Coupon Revenue"
+    description: "Revenue from coupon payments"
+    type: simple  # Simple metric: Sum of coupon amounts
+    type_params:
+      measure: coupon_amount
+    
+  - name: bank_transfer_revenue
+    label: "Bank Transfer Revenue"
+    description: "Revenue from bank transfer payments"
+    type: simple  # Simple metric: Sum of bank transfer amounts
+    type_params:
+      measure: bank_transfer_amount
+  
+  - name: total_payment_revenue
+    label: "Total Payment Revenue"
+    description: "Sum of all payment method revenues"
+    type: simple  # Simple metric: Sum of combined payment measure
+    type_params:
+      measure: total_payment_amount
+  
+  - name: completed_orders
+    label: "Completed Orders"
+    description: "Number of completed orders"
+    type: simple  # Simple metric: Count distinct with conditional filter
+    type_params:
+      measure: completed_order_count
+  
+  # ============================================
+  # FILTERED METRICS - Simple metrics with WHERE conditions
+  # ============================================
+  
+  - name: completed_revenue
+    label: "Completed Revenue"
+    description: "Revenue from completed orders only"
+    type: simple  # Filtered metric: Simple metric with status filter
+    type_params:
+      measure: order_total
+    filter: |
+      {{ Dimension('orders__order_status') }} = 'completed'
+  
+  # ============================================
+  # RATIO METRICS - Division of two metrics
+  # ============================================
+  
+  - name: average_order_value
+    label: "Average Order Value"
+    description: "Average value per order"
+    type: ratio  # Ratio metric: Revenue divided by order count
+    type_params:
+      numerator: total_revenue
+      denominator: total_orders
+  
+  - name: revenue_per_customer
+    label: "Revenue Per Customer"
+    description: "Average revenue per order (simplified as revenue per order)"
+    type: ratio  # Ratio metric: Revenue per order (simplified calculation)
+    type_params:
+      numerator: total_revenue
+      denominator: total_orders
+  
+  - name: credit_card_payment_ratio
+    label: "Credit Card Payment Ratio"
+    description: "Percentage of revenue from credit card payments"
+    type: ratio  # Ratio metric: Credit card revenue as percentage of total
+    type_params:
+      numerator: credit_card_revenue
+      denominator: total_revenue
+  
+  # ============================================
+  # CONVERSION-LIKE METRICS - Using ratio metrics to represent conversions
+  # Note: True conversion metrics (with time windows) require MetricFlow 0.204+
+  # ============================================
+  
+  - name: order_completion_rate
+    label: "Order Completion Rate"
+    description: "Percentage of orders that were completed (conversion from order to completed order)"
+    type: ratio  # Conversion-like: Completed orders / Total orders (represents conversion rate)
+    type_params:
+      numerator: completed_orders
+      denominator: total_orders
+  
+  - name: credit_card_adoption_rate
+    label: "Credit Card Adoption Rate"
+    description: "Percentage of orders paid via credit card (conversion to credit card payment)"
+    type: ratio  # Conversion-like: Credit card revenue / Total revenue (represents adoption rate)
+    type_params:
+      numerator: credit_card_revenue
+      denominator: total_revenue
+

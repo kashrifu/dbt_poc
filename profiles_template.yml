@@ -1,0 +1,34 @@
+# Template for ~/.dbt/profiles.yml
+# Copy this configuration to your ~/.dbt/profiles.yml file
+# and update with your actual database credentials
+
+metricflow_poc:
+  target: dev
+  outputs:
+    dev:
+      type: snowflake  # or bigquery, redshift, postgres, etc.
+      account: your_account
+      user: your_username
+      password: your_password
+      role: your_role
+      database: your_database
+      warehouse: your_warehouse
+      schema: your_schema
+      threads: 4
+      
+      # For BigQuery, use:
+      # type: bigquery
+      # method: service-account
+      # project: your_project
+      # dataset: your_dataset
+      # keyfile: /path/to/keyfile.json
+      
+      # For Redshift, use:
+      # type: redshift
+      # host: your_host.redshift.amazonaws.com
+      # port: 5439
+      # user: your_username
+      # password: your_password
+      # dbname: your_database
+      # schema: your_schema
+

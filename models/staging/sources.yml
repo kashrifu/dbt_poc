@@ -1,0 +1,44 @@
+version: 2
+
+sources:
+  - name: jaffle_shop
+    description: "Raw data from Jaffle Shop - a fictional e-commerce store"
+    database: "{{ var('source_database', target.database) }}"
+    schema: "{{ var('source_schema', target.schema) }}"
+    
+    tables:
+      - name: raw_customers
+        description: "Raw customer data from Jaffle Shop"
+        columns:
+          - name: id
+            description: "Customer ID - primary key"
+            tests:
+              - unique
+              - not_null
+          - name: name
+            description: "Customer full name"
+      
+      - name: raw_orders
+        description: "Raw order data from Jaffle Shop"
+        columns:
+          - name: id
+            description: "Order ID - primary key"
+            tests:
+              - unique
+              - not_null
+          - name: customer
+            description: "Customer ID - foreign key to customers"
+            tests:
+              - relationships:
+                  arguments:
+                    to: source('jaffle_shop', 'raw_customers')
+                    field: id
+          - name: ordered_at
+            description: "Date when the order was placed"
+            tests:
+              - not_null
+          - name: tax_paid
+            description: "Tax amount paid on the order"
+          - name: store_id
+            description: "Store ID where the order was placed"
+

@@ -1,0 +1,26 @@
+semantic_models:
+  - name: customers
+    description: >
+      Customer dimension table for multi-hop joins. This allows joining from orders
+      through customers to other dimensions.
+    model: ref('dim_customers')
+    
+    entities:
+      - name: customer
+        expr: customer_id
+        type: primary
+    
+    dimensions:
+      - name: customer_first_name
+        expr: first_name
+        type: categorical
+      - name: customer_last_name
+        expr: last_name
+        type: categorical
+      - name: customer_name
+        expr: name
+        type: categorical
+      - name: customer_region
+        expr: region
+        type: categorical
+

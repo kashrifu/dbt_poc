@@ -1,0 +1,22 @@
+semantic_models:
+  - name: time_spine
+    description: >
+      Time spine table for time-based metric queries. This table contains one row
+      per day from 2020-01-01 to 2025-12-31.
+    model: ref('time_spine')
+    
+    defaults:
+      agg_time_dimension: date_day
+    
+    entities:
+      - name: date
+        expr: date_day
+        type: primary
+    
+    dimensions:
+      - name: date_day
+        expr: date_day
+        type: time
+        type_params:
+          time_granularity: day
+
