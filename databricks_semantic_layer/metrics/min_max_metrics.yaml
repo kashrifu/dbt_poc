@@ -1,0 +1,87 @@
+version: 1.1
+source: ifbi-edw-dev.metricflow_po.fct_orders
+
+dimensions:
+  - name: order_date_month
+    expr: DATE_TRUNC('month', source.order_date)
+    display_name: Order Month
+    comment: Month in which the order was placed
+    format:
+      type: date
+      date_format: locale_short_month
+      leading_zeros: false
+
+  - name: order_status
+    expr: source.status
+    display_name: Order Status
+    comment: Status of the order
+
+measures:
+  - name: min_order_amount
+    expr: MIN(source.amount)
+    display_name: Minimum Order Amount
+    comment: Smallest order amount in the dataset
+    format:
+      type: currency
+      currency_code: USD
+      decimal_places:
+        type: exact
+        places: 2
+      abbreviation: compact
+
+  - name: max_order_amount
+    expr: MAX(source.amount)
+    display_name: Maximum Order Amount
+    comment: Largest order amount in the dataset
+    format:
+      type: currency
+      currency_code: USD
+      decimal_places:
+        type: exact
+        places: 2
+      abbreviation: compact
+
+  - name: earliest_order_date
+    expr: MIN(source.order_date)
+    display_name: Earliest Order Date
+    comment: Date of the first order in the dataset
+    format:
+      type: date_time
+      date_format: year_month_day
+      time_format: locale_hour_minute_second
+      leading_zeros: false
+
+  - name: latest_order_date
+    expr: MAX(source.order_date)
+    display_name: Latest Order Date
+    comment: Date of the most recent order in the dataset
+    format:
+      type: date_time
+      date_format: year_month_day
+      time_format: locale_hour_minute_second
+      leading_zeros: false
+
+  - name: min_credit_card_amount
+    expr: MIN(source.credit_card_amount)
+    display_name: Minimum Credit Card Amount
+    comment: Smallest credit card payment amount
+    format:
+      type: currency
+      currency_code: USD
+      decimal_places:
+        type: exact
+        places: 2
+      abbreviation: compact
+
+  - name: max_credit_card_amount
+    expr: MAX(source.credit_card_amount)
+    display_name: Maximum Credit Card Amount
+    comment: Largest credit card payment amount
+    format:
+      type: currency
+      currency_code: USD
+      decimal_places:
+        type: exact
+        places: 2
+      abbreviation: compact
+

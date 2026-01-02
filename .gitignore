@@ -28,3 +28,4 @@ Thumbs.db
 # Profiles (contains sensitive data)
 profiles.yml
 
+dbt_internal_packages/

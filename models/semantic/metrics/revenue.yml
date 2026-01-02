@@ -63,7 +63,7 @@ metrics:
     type_params:
       measure: order_total
     filter: |
-      {{ Dimension('orders__order_status') }} = 'completed'
+      {{ Dimension('order__order_status') }} = 'completed'
   
   # ============================================
   # RATIO METRICS - Division of two metrics
@@ -113,4 +113,17 @@ metrics:
     type_params:
       numerator: credit_card_revenue
       denominator: total_revenue
+
+  # ============================================
+  # TRUE CONVERSION METRICS - Time-windowed conversions with entity-based joins
+  # NOTE: Conversion metrics (type: conversion) are not supported in dbt 1.10.16
+  # These require MetricFlow 0.204+ and dbt 1.11+ with proper semantic model setup
+  # 
+  # For now, we use ratio metrics above for conversion-like calculations.
+  # To use true conversion metrics, you would need:
+  # - dbt 1.11+ or newer
+  # - MetricFlow 0.204+
+  # - Separate semantic models for base and conversion events
+  # - Proper entity linking between semantic models
+  # ============================================
 

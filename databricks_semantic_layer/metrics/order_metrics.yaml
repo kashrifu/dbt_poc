@@ -1,0 +1,90 @@
+version: 1.1
+source: ifbi-edw-dev.metricflow_po.fct_orders
+
+dimensions:
+  - name: order_date
+    expr: source.order_date
+    display_name: Order Date
+    comment: Date and time when the order was placed
+    format:
+      type: date_time
+      date_format: year_month_day
+      time_format: locale_hour_minute_second
+      leading_zeros: false
+
+  - name: order_date_month
+    expr: DATE_TRUNC('month', source.order_date)
+    display_name: Order Month
+    comment: Month in which the order was placed
+    format:
+      type: date
+      date_format: locale_short_month
+      leading_zeros: false
+
+  - name: order_date_quarter
+    expr: DATE_TRUNC('quarter', source.order_date)
+    display_name: Order Quarter
+    comment: Quarter in which the order was placed
+    format:
+      type: date
+      date_format: year_month_day
+      leading_zeros: false
+
+  - name: order_date_year
+    expr: DATE_TRUNC('year', source.order_date)
+    display_name: Order Year
+    comment: Year in which the order was placed
+    format:
+      type: date
+      date_format: year_month_day
+      leading_zeros: false
+
+  - name: order_status
+    expr: source.status
+    display_name: Order Status
+    comment: Status of the order (e.g., completed, pending, cancelled)
+
+measures:
+  - name: total_orders
+    expr: COUNT(DISTINCT source.order_id)
+    display_name: Total Orders
+    comment: Total number of distinct orders
+    format:
+      type: number
+      decimal_places:
+        type: exact
+        places: 0
+      abbreviation: compact
+
+  - name: completed_orders
+    expr: COUNT(DISTINCT CASE WHEN source.status = 'completed' THEN source.order_id END)
+    display_name: Completed Orders
+    comment: Count of completed orders
+    format:
+      type: number
+      decimal_places:
+        type: exact
+        places: 0
+      abbreviation: compact
+
+  - name: unique_customers
+    expr: COUNT(DISTINCT source.customer_id)
+    display_name: Unique Customers
+    comment: Number of unique customers
+    format:
+      type: number
+      decimal_places:
+        type: exact
+        places: 0
+      abbreviation: compact
+
+  - name: customers_with_completed_orders
+    expr: COUNT(DISTINCT CASE WHEN source.status = 'completed' THEN source.customer_id END)
+    display_name: Customers with Completed Orders
+    comment: Number of customers with at least one completed order
+    format:
+      type: number
+      decimal_places:
+        type: exact
+        places: 0
+      abbreviation: compact

@@ -1,0 +1,93 @@
+version: 1.1
+source: ifbi-edw-dev.metricflow_po.fct_orders
+
+dimensions:
+  - name: order_date_month
+    expr: DATE_TRUNC('month', source.order_date)
+    display_name: Order Month
+    comment: Month in which the order was placed
+    format:
+      type: date
+      date_format: locale_short_month
+      leading_zeros: false
+
+  - name: order_status
+    expr: source.status
+    display_name: Order Status
+    comment: Status of the order
+
+measures:
+  - name: total_revenue
+    expr: SUM(source.amount)
+    display_name: Total Revenue
+    comment: Total revenue from all orders
+    format:
+      type: currency
+      currency_code: USD
+      decimal_places:
+        type: exact
+        places: 2
+      abbreviation: compact
+
+  - name: total_orders
+    expr: COUNT(DISTINCT source.order_id)
+    display_name: Total Orders
+    comment: Total number of distinct orders
+    format:
+      type: number
+      decimal_places:
+        type: exact
+        places: 0
+      abbreviation: compact
+
+  - name: conversion_rate
+    expr: COUNT(CASE WHEN source.status = 'completed' THEN 1 END) * 1.0 / NULLIF(COUNT(*), 0)
+    display_name: Conversion Rate
+    comment: Percentage of orders that were completed (conversion metric)
+    format:
+      type: percentage
+      decimal_places:
+        type: exact
+        places: 2
+
+  - name: average_order_value
+    expr: SUM(source.amount) / NULLIF(COUNT(DISTINCT source.order_id), 0)
+    display_name: Average Order Value
+    comment: Average revenue per order
+    format:
+      type: currency
+      currency_code: USD
+      decimal_places:
+        type: exact
+        places: 2
+      abbreviation: compact
+
+  - name: credit_card_adoption_rate
+    expr: SUM(source.credit_card_amount) * 1.0 / NULLIF(SUM(source.amount), 0)
+    display_name: Credit Card Adoption Rate
+    comment: Percentage of revenue from credit card payments (adoption conversion metric)
+    format:
+      type: percentage
+      decimal_places:
+        type: exact
+        places: 2
+
+  - name: coupon_usage_rate
+    expr: COUNT(CASE WHEN source.coupon_amount > 0 THEN 1 END) * 1.0 / NULLIF(COUNT(DISTINCT source.order_id), 0)
+    display_name: Coupon Usage Rate
+    comment: Percentage of orders that used a coupon (conversion metric)
+    format:
+      type: percentage
+      decimal_places:
+        type: exact
+        places: 2
+
+  - name: order_completion_rate
+    expr: COUNT(CASE WHEN source.status = 'completed' THEN 1 END) * 1.0 / NULLIF(COUNT(DISTINCT source.order_id), 0)
+    display_name: Order Completion Rate
+    comment: Percentage of orders that reached completed status (conversion metric)
+    format:
+      type: percentage
+      decimal_places:
+        type: exact
+        places: 2

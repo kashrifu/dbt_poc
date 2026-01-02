@@ -1,0 +1,18 @@
+{
+  "mcpServers": {
+    "dbt": {
+      "command": "py",
+      "args": [
+        "-3.12",
+        "-m",
+        "dbt_mcp.main"
+      ],
+      "env": {
+        "DBT_PROJECT_DIR": "C:\\Rif\\dbt_poc\\metricflow_poc",
+        "DBT_PROFILES_DIR": "C:\\Rif\\dbt_poc\\metricflow_poc",
+        "DBT_PATH": "C:\\Users\\Timer\\.local\\bin\\dbt.exe"
+      }
+    }
+  }
+}
+

@@ -1,0 +1,22 @@
+# Headless BI API Server Requirements
+# Install with: pip install -r requirements_headless_bi.txt
+
+# MCP (Model Context Protocol) client
+mcp>=1.23.1
+
+# FastAPI and web server
+fastapi>=0.116.1
+uvicorn>=0.31.1
+
+# dbt Core and adapters (for Python 3.12)
+dbt-core>=1.10.17
+dbt-databricks>=1.11.0
+dbt-metricflow>=0.11.0
+
+# HTTP client for API requests (optional, for testing)
+requests>=2.32.4
+
+# Note: dbt-mcp should be installed from local clone:
+# cd C:\Rif\dbt_mcp\dbt-mcp
+# pip install -e .
+

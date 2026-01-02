@@ -1,0 +1,67 @@
+semantic_models:
+  - name: visits
+    description: >
+      Visits/page views table representing customer visits to the Jaffle Shop website.
+      This is the BASE event for conversion metrics. The conversion event is orders (orders semantic model).
+      Linked by customer entity for conversion tracking.
+    model: ref('fct_visits')
+    
+    defaults:
+      agg_time_dimension: visit_date
+    
+    entities:
+      - name: visit
+        expr: visit_id
+        type: primary
+      - name: customer
+        expr: customer_id
+        type: foreign
+        description: "Customer entity linking visits to orders for conversion metrics"
+    
+    dimensions:
+      - name: visit_date
+        expr: visit_date
+        type: time
+        type_params:
+          time_granularity: day
+      - name: visit_date_week
+        expr: visit_date
+        type: time
+        type_params:
+          time_granularity: week
+      - name: visit_date_month
+        expr: visit_date
+        type: time
+        type_params:
+          time_granularity: month
+      - name: visit_date_quarter
+        expr: visit_date
+        type: time
+        type_params:
+          time_granularity: quarter
+      - name: visit_date_year
+        expr: visit_date
+        type: time
+        type_params:
+          time_granularity: year
+      - name: page_type
+        expr: page_type
+        type: categorical
+        description: "Type of page visited (home, products, product_detail, checkout)"
+      - name: referrer
+        expr: referrer
+        type: categorical
+        description: "Traffic source (direct, google, facebook, email)"
+    
+    measures:
+      - name: visit_count
+        agg: count_distinct
+        expr: visit_id
+        description: "Count of distinct visits"
+      - name: visitor_count
+        agg: count_distinct
+        expr: customer_id
+        description: "Count of distinct visitors (customers)"
+
+
+

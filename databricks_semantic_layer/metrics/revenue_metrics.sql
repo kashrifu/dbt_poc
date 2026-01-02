@@ -1,0 +1,13 @@
+-- Unity Catalog Metric Views: Revenue Metrics
+-- 
+-- IMPORTANT: Unity Catalog Metric Views are defined in YAML format, not SQL.
+-- This file is kept for reference. Use the YAML files instead:
+--   - revenue_metrics.yaml
+--   - revenue_metrics_with_stores.yaml
+--
+-- To create metric views:
+--   1. Use Catalog Explorer UI: Navigate to catalog/schema > "+ Create" > "Metric View" > Paste YAML
+--   2. Or use create_metric_views.sql which embeds YAML in CREATE VIEW statements
+--
+-- See query_examples.sql for how to query metric views using MEASURE() function
+

@@ -1,0 +1,9 @@
+NOTE: Window functions (rolling windows, period-to-date, cumulative sums) are NOT directly supported in Unity Catalog Metric View measure expressions.
+
+This file is a placeholder. Windowed metrics should be implemented using:
+1. Business views with window functions, then aggregate in metric view
+2. Query-level calculations with window functions
+3. Materialized views for pre-computed windowed metrics
+
+See WINDOWED_METRICS_NOTE.md for complete details and workarounds.
+

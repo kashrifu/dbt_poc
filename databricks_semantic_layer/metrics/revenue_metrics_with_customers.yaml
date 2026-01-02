@@ -1,0 +1,114 @@
+version: 1.1
+source: ifbi-edw-dev.metricflow_po.fct_orders
+
+joins:
+  - name: customers
+    source: ifbi-edw-dev.metricflow_po.dim_customers
+    on: source.customer_id = customers.customer_id
+
+dimensions:
+  - name: order_date
+    expr: source.order_date
+    display_name: Order Date
+    comment: Date and time when the order was placed
+    format:
+      type: date_time
+      date_format: year_month_day
+      time_format: locale_hour_minute_second
+      leading_zeros: false
+
+  - name: order_date_month
+    expr: DATE_TRUNC('month', source.order_date)
+    display_name: Order Month
+    comment: Month in which the order was placed
+    format:
+      type: date
+      date_format: locale_short_month
+      leading_zeros: false
+
+  - name: order_date_quarter
+    expr: DATE_TRUNC('quarter', source.order_date)
+    display_name: Order Quarter
+    comment: Quarter in which the order was placed
+    format:
+      type: date
+      date_format: year_month_day
+      leading_zeros: false
+
+  - name: order_date_year
+    expr: DATE_TRUNC('year', source.order_date)
+    display_name: Order Year
+    comment: Year in which the order was placed
+    format:
+      type: date
+      date_format: year_month_day
+      leading_zeros: false
+
+  - name: order_status
+    expr: source.status
+    display_name: Order Status
+    comment: Status of the order (e.g., completed, pending, cancelled)
+
+  - name: customer_region
+    expr: customers.region
+    display_name: Customer Region
+    comment: Geographic region of the customer
+
+  - name: customer_first_name
+    expr: customers.first_name
+    display_name: Customer First Name
+    comment: First name of the customer
+
+  - name: customer_last_name
+    expr: customers.last_name
+    display_name: Customer Last Name
+    comment: Last name of the customer
+
+measures:
+  - name: total_revenue
+    expr: SUM(source.amount)
+    display_name: Total Revenue
+    comment: Total revenue from all orders
+    format:
+      type: currency
+      currency_code: USD
+      decimal_places:
+        type: exact
+        places: 2
+      abbreviation: compact
+
+  - name: credit_card_revenue
+    expr: SUM(source.credit_card_amount)
+    display_name: Credit Card Revenue
+    comment: Revenue from credit card payments
+    format:
+      type: currency
+      currency_code: USD
+      decimal_places:
+        type: exact
+        places: 2
+      abbreviation: compact
+
+  - name: completed_revenue
+    expr: SUM(CASE WHEN source.status = 'completed' THEN source.amount ELSE 0 END)
+    display_name: Completed Revenue
+    comment: Revenue from completed orders only
+    format:
+      type: currency
+      currency_code: USD
+      decimal_places:
+        type: exact
+        places: 2
+      abbreviation: compact
+
+  - name: total_orders
+    expr: COUNT(DISTINCT source.order_id)
+    display_name: Total Orders
+    comment: Total number of distinct orders
+    format:
+      type: number
+      decimal_places:
+        type: exact
+        places: 0
+      abbreviation: compact
+

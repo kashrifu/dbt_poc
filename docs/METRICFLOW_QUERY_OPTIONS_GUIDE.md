@@ -62,7 +62,7 @@ mf query --metrics total_revenue --group-by order__order_status
 mf query --metrics total_revenue --group-by store__store_type
 
 # Multiple dimensions
-mf query --metrics total_revenue --group-by order__order_date__month,store__store_type,customers__customer_region
+mf query --metrics total_revenue --group-by order__order_date__month,store__store_type,customer__customer_region
 ```
 
 ### 3. `--where` (Filtering)

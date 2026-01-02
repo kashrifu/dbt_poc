@@ -1,0 +1,97 @@
+version: 1.1
+source: ifbi-edw-dev.metricflow_po.fct_orders
+
+dimensions:
+  - name: order_date_month
+    expr: DATE_TRUNC('month', source.order_date)
+    display_name: Order Month
+    comment: Month in which the order was placed
+    format:
+      type: date
+      date_format: locale_short_month
+      leading_zeros: false
+
+  - name: order_status
+    expr: source.status
+    display_name: Order Status
+    comment: Status of the order
+
+measures:
+  - name: total_orders
+    expr: COUNT(DISTINCT source.order_id)
+    display_name: Total Orders
+    comment: Total number of distinct orders
+    format:
+      type: number
+      decimal_places:
+        type: exact
+        places: 0
+      abbreviation: compact
+
+  - name: completed_orders
+    expr: COUNT(CASE WHEN source.status = 'completed' THEN 1 END)
+    display_name: Completed Orders
+    comment: Count of completed orders
+    format:
+      type: number
+      decimal_places:
+        type: exact
+        places: 0
+      abbreviation: compact
+
+  - name: total_revenue
+    expr: SUM(source.amount)
+    display_name: Total Revenue
+    comment: Total revenue from all orders
+    format:
+      type: currency
+      currency_code: USD
+      decimal_places:
+        type: exact
+        places: 2
+      abbreviation: compact
+
+  - name: completed_revenue
+    expr: SUM(CASE WHEN source.status = 'completed' THEN source.amount ELSE 0 END)
+    display_name: Completed Revenue
+    comment: Revenue from completed orders only
+    format:
+      type: currency
+      currency_code: USD
+      decimal_places:
+        type: exact
+        places: 2
+      abbreviation: compact
+
+  - name: conversion_rate
+    expr: MEASURE(completed_orders) * 1.0 / NULLIF(MEASURE(total_orders), 0)
+    display_name: Conversion Rate
+    comment: Percentage of orders that were completed (derived from completed_orders and total_orders)
+    format:
+      type: percentage
+      decimal_places:
+        type: exact
+        places: 2
+
+  - name: average_order_value
+    expr: MEASURE(total_revenue) / NULLIF(MEASURE(total_orders), 0)
+    display_name: Average Order Value
+    comment: Average revenue per order (derived from total_revenue and total_orders)
+    format:
+      type: currency
+      currency_code: USD
+      decimal_places:
+        type: exact
+        places: 2
+      abbreviation: compact
+
+  - name: completed_revenue_ratio
+    expr: MEASURE(completed_revenue) / NULLIF(MEASURE(total_revenue), 0)
+    display_name: Completed Revenue Ratio
+    comment: Percentage of revenue from completed orders (derived metric)
+    format:
+      type: percentage
+      decimal_places:
+        type: exact
+        places: 2
+

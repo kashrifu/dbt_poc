@@ -84,4 +84,15 @@ semantic_models:
         agg: count_distinct
         expr: case when status = 'completed' then order_id else null end
         description: "Count of completed orders"
+      # Note: These measures were added for conversion metrics, but conversion metrics
+      # require different semantic models. Keeping them for potential future use or
+      # for creating customer-based ratio metrics.
+      - name: customer_order_count
+        agg: count_distinct
+        expr: customer_id
+        description: "Count of distinct customers who placed orders"
+      - name: customer_completed_order_count
+        agg: count_distinct
+        expr: case when status = 'completed' then customer_id else null end
+        description: "Count of distinct customers who completed orders"
 

@@ -1,0 +1,15 @@
+-- Unity Catalog Metric Views: Ratio Metrics
+--
+-- IMPORTANT: Unity Catalog Metric Views don't directly support ratio metrics
+-- that reference other metrics. Instead, calculate ratios in queries:
+--
+-- Example:
+--   SELECT 
+--       order_date_month,
+--       MEASURE(total_revenue) / NULLIF(MEASURE(total_orders), 0) AS avg_order_value
+--   FROM workspace.dbt_poc.metric_revenue_metrics
+--   GROUP BY order_date_month;
+--
+-- Or create a combined metric view with both measures and calculate ratios in queries.
+-- See query_examples.sql for ratio calculation examples.
+
